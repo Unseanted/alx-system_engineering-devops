@@ -1,0 +1,10 @@
+https://i.postimg.cc/0QzSxKv0/simple-web-stack.jpg
+Explanation:
+
+User: Initiates a request to access www.foobar.com through a web browser.
+Domain Name: www.foobar.com is resolved to the server's IP address (8.8.8.8) by the DNS server.
+DNS Server: Resolves the domain name to the server's IP address using DNS records.
+Server: Hosts the website and consists of:
+Nginx (Web Server): Handles HTTP requests, serves static content, and forwards dynamic requests to the application server.
+Application Server: Executes application logic, generates dynamic content, and interacts with the database.
+MySQL (Database): Stores and manages website data.
