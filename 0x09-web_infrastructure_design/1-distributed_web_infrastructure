@@ -1,0 +1,37 @@
+https://i.postimg.cc/KjK4nb9C/Group-1.jpg
+
+Explanation:
+
+- **User:** Initiates a request to access www.foobar.com through a web browser.
+- **Domain Name:** www.foobar.com is resolved to the load balancer's IP address (10.0.0.10) by the DNS server.
+- **DNS Server:** Resolves the domain name to the load balancer's IP address using DNS records.
+- **Load Balancer (HAProxy):** Distributes incoming traffic evenly between the two web servers using a Round Robin algorithm.
+  - **Round Robin Distribution Algorithm:** Requests are distributed in a circular sequence to each server in turn.
+- **Server 1 and Server 2:** Host the website and consist of:
+  - **Nginx (Web Server):** Handles HTTP requests, serves static content.
+  - **Application Server:** Executes application logic, interacts with the database.
+  - **MySQL (Database):** Stores and manages website data.
+
+### Specifics Explanation:
+
+- **Why Two Servers?:** Introduces redundancy to eliminate a single point of failure (SPOF) and improve fault tolerance.
+- **Load Balancer (HAProxy):** Manages traffic distribution to ensure high availability and scalability.
+- **Round Robin Algorithm:** Distributes traffic evenly across servers to optimize resource utilization.
+- **Active-Active vs. Active-Passive Setup:**
+  - Active-Active: Both servers actively handle requests, evenly distributing the load.
+  - Active-Passive: Only one server serves traffic at a time, while the other remains on standby as a backup.
+- **Primary-Replica Database Cluster (Master-Slave):**
+  - The primary node handles read-write operations, while replica nodes replicate data from the primary for backup and read-only purposes.
+- **Difference Between Primary and Replica Nodes:**
+  - The primary node handles write operations and serves as the authoritative source for data changes.
+  - Replica nodes replicate data from the primary and serve read-only queries, enhancing scalability and fault tolerance.
+
+### Issues with the Infrastructure:
+
+1. **Single Point of Failure (SPOF):**
+   - The load balancer represents a single point of failure. If it fails, traffic distribution will be disrupted.
+2. **Security Issues:**
+   - Lack of a firewall leaves the infrastructure vulnerable to unauthorized access or attacks.
+   - Lack of HTTPS encryption exposes user data to interception or manipulation.
+3. **No Monitoring:**
+   - Without monitoring tools, it's challenging to identify performance issues, security breaches, or other anomalies in real-time.

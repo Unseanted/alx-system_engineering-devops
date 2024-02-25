@@ -1,0 +1,47 @@
+https://i.postimg.cc/g2p2NQNX/2-secured-and-monitored-web-infrastructure.jpg
+
+### Infrastructure Design:
+
+1. **Firewalls:**
+   - Three firewalls are added for security purposes to control incoming and outgoing traffic.
+   - They act as barriers between the internal network and the internet, filtering traffic based on predefined security rules.
+
+2. **SSL Certificate & HTTPS:**
+   - An SSL certificate is installed on the load balancer to enable HTTPS encryption.
+   - HTTPS encrypts data transmitted between the web server and the user's browser, ensuring confidentiality and integrity of the data.
+
+3. **Monitoring Clients (Data Collector):**
+   - Monitoring clients, acting as data collectors, gather information about the infrastructure's performance, security, and availability.
+   - They send data to a monitoring service (e.g., Sumo Logic) for analysis and visualization.
+
+### Specifics Explanation:
+
+1. **Firewalls:**
+   - Added to enforce security policies and protect the infrastructure from unauthorized access, malicious attacks, and potential vulnerabilities.
+   
+2. **SSL Certificate & HTTPS:**
+   - Traffic served over HTTPS to encrypt data in transit, preventing eavesdropping, data tampering, and man-in-the-middle attacks.
+   - SSL termination at the load balancer enables decryption of HTTPS traffic, allowing the load balancer to inspect and route requests based on their content.
+
+3. **Monitoring:**
+   - Used to monitor the health, performance, and security of the infrastructure in real-time.
+   - Monitoring data collectors gather metrics, logs, and events from various components such as servers, databases, and network devices.
+
+### Monitoring Data Collection:
+
+- Monitoring tools collect data through agents installed on servers, network devices, and other components.
+- These agents periodically collect metrics, logs, and events, and send them to the monitoring service for analysis.
+- Data collectors may also collect data via APIs, SNMP, or other protocols supported by the monitoring service.
+
+### Issues with the Infrastructure:
+
+1. **SSL Termination at the Load Balancer:**
+   - Terminating SSL at the load balancer introduces a potential security risk because decrypted traffic is then forwarded to internal components, potentially exposing sensitive data.
+
+2. **Single MySQL Server Accepting Writes:**
+   - Having only one MySQL server capable of accepting writes creates a single point of failure. If the server fails, it can lead to data loss or downtime.
+   - Additionally, it can limit scalability and performance under heavy write loads.
+
+3. **Identical Components Across Servers:**
+   - Having servers with identical components (e.g., database, web server, and application server) may lead to homogeneity issues.
+   - It can make the infrastructure vulnerable to widespread failures caused by common software or hardware issues.

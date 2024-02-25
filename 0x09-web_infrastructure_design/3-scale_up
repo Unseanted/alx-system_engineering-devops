@@ -1,0 +1,45 @@
+https://i.postimg.cc/t4mPw9fv/3-scale-up.jpg
+
+#### Application Server vs. Web Server
+
+In this infrastructure setup, we distinguish between the roles of the application server and the web server to optimize performance, scalability, and maintainability.
+
+### Infrastructure Design:
+
+1. **Server:**
+   - One physical or virtual machine serves as the foundation of the infrastructure.
+
+2. **Load-Balancer (HAProxy Cluster):**
+   - HAProxy is configured in a cluster setup with redundancy to distribute incoming traffic across multiple servers.
+   - This ensures high availability and scalability by directing requests to healthy servers.
+
+3. **Web Server:**
+   - A separate server hosts the web server component, such as Nginx or Apache.
+   - The web server handles HTTP requests, serves static content, and forwards dynamic requests to the application servers.
+   - Isolating the web server from other components allows for specialized configurations and optimizations tailored for serving web content efficiently.
+
+4. **Application Server:**
+   - Another server hosts the application server component, such as Node.js, Python Django, or Ruby on Rails.
+   - The application server executes the application logic, processes dynamic content generation, and interacts with the database.
+   - Separating the application server from the web server enables scalability and flexibility in scaling each component independently based on demand.
+
+5. **Database:**
+   - The database component, such as MySQL or PostgreSQL, is hosted on its own server.
+   - It stores and manages the application's data, handling read and write operations efficiently.
+   - Isolating the database server ensures data integrity, security, and optimal performance.
+
+### Specifics Explanation:
+
+1. **Load-Balancer (HAProxy Cluster):**
+   - Added for load distribution and high availability.
+   - HAProxy is configured as a cluster to provide redundancy and fault tolerance.
+   - It distributes incoming traffic across multiple web and application servers, ensuring optimal resource utilization and preventing overload on individual servers.
+
+2. **Split Components with Their Own Servers:**
+   - Separating components onto dedicated servers enhances scalability, performance, and security.
+   - Isolating the web server, application server, and database server allows for independent scaling, tuning, and maintenance of each component.
+   - This modular approach enables efficient resource utilization, minimizes single points of failure, and facilitates easier troubleshooting and debugging.
+
+### Conclusion:
+
+This infrastructure design optimizes the hosting environment for www.foobar.com by leveraging dedicated servers for distinct roles, employing load balancing for high availability, and ensuring scalability and maintainability through component isolation.
