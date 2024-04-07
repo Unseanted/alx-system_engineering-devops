@@ -1,34 +1,50 @@
-#!/usr/bin/env bash
-# installs with the following configurations:
-#+  Enables management via the init script.
-#+  Distributes requests using a round-robin algorithm
-# Update package lists
-sudo apt update
+#!/usr//bin/env bash
+# Installs the following configurations:
+#+	Enables management via the init script.
+#+	Distrbutes requests using a roundrobin algorithm.
 
-# Install HAProxy
-sudo apt install -y haproxy
+sudo apt-get install -y haproxy
 
-# Configure HAProxy
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
-sudo cat << EOF | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
-frontend http_front
-    bind *:80
-    stats uri /haproxy?stats
-    default_backend http_back
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
 
-backend http_back
-    balance roundrobin
-    server web-01 [519604-web-01]-34.232.52.151:80 check
-    server web-02 [519604-web-01]-54.174.21.162:80 check
-EOF
+printf %s "global
+	log 127.0.0.1 local0 notice
+	maxconn 2000
+	user haproxy
+	group haproxy
 
-# Restart HAProxy
-sudo systemctl restart haproxy
+defaults
+	log	global
+	mode	http
+	option	httplog
+	option	dontlognull
+	retries	3
+	option redispatch
+	timeout connect	5000
+	timeout client	30000
+	timeout server	30000
+	errorfile 400 /etc/haproxy/errors/400.http
+	errorfile 403 /etc/haproxy/errors/403.http
+	errorfile 408 /etc/haproxy/errors/408.http
+	errorfile 500 /etc/haproxy/errors/500.http
+	errorfile 502 /etc/haproxy/errors/502.http
+	errorfile 503 /etc/haproxy/errors/503.http
+	errorfile 504 /etc/haproxy/errors/504.http
 
-# Enable HAProxy to be managed via init script
-sudo systemctl enable haproxy
+frontend http-in
+	timeout client	30000
+	bind 0:80
+	default_backend servers
 
-sudo hostnamectl set-hostname [519604-lb-01]-lb-01
+backend servers
+	timeout connect	3000
+	timeout server	30000
+	balance roundrobin
+	server 519604-web-01 34.232.52.151:80 check
+	server 519604-web-02 54.174.21.162:80 check
 
-echo "HAProxy installed and configured successfully."
+" >> /etc/haproxy/haproxy.cfg
 
+sudo service haproxy restart
