@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
-# This script configures a server to listening on port 80 of all servers active IPv4 IPs
+#!/bin/env bash
 
-#removes nginx
-rm /etc/nginx/sites-enabled/default
-#configures nginx
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-#restarts nginx
-sudo service nginx restart
+# Stop any services already running on port 80
+sudo systemctl stop apache2
+
+# Modify Nginx configuration to listen on port 80
+sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+
+# Restart Nginx
+sudo systemctl restart nginx
