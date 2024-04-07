@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # This script configures a server to listening on port 80 of all servers active ipv4 aand ipv6
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-#restart nginx
 service nginx start
-#termination of the first nginx process
 kill "$(pgrep 'nginx' | head -1)"
