@@ -3,22 +3,28 @@
     this module contains the function top_ten
 '''
 import requests
-from sys import argv
-
 
 def top_ten(subreddit):
-    '''
-        returns the top ten posts for a given subreddit
-    '''
-    user = {'User-Agent': 'Lizzie'}
-    url = requests.get('https://www.reddit.com/r/{}/hot/.json?limit=10'
-                       .format(subreddit), headers=user).json()
-    try:
-        for post in url.get('data').get('children'):
-            print(post.get('data').get('title'))
-    except Exception:
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
+    params = {"limit": 10}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code != 200:
         print(None)
+        return
 
+    data = response.json()
+    if 'data' not in data or 'children' not in data['data']:
+        print(None)
+        return
 
-if __name__ == "__main__":
-    top_ten(argv[1])
+    children = data['data']['children']
+    if not children:
+        print(None)
+        return
+
+    print(f"Top 10 hot posts for subreddit '{subreddit}':")
+    for child in children:
+        print(child['data']['title'])
