@@ -21,20 +21,10 @@ sudo nano /etc/apache2/apache2.conf
 # Restart Apache
 sudo systemctl restart apache2
 
-# 0-strace_is_your_friend.pp
+# Fixes bad `phpp` extensions to `php` in the WordPress file `wp-settings.php`.
 
-# Define a Puppet resource to manage the Apache configuration file
-file { '/etc/apache2/apache2.conf':
-  ensure  => file,
-  content => "Corrected content here",
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  notify  => Service['apache2'],
-}
-
-# Define a Puppet resource to ensure Apache service is running
-service { 'apache2':
-  ensure => running,
+exec { 'fix-wordpress':
+  command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path    => '/usr/local/bin/:/bin/'
 }
 
