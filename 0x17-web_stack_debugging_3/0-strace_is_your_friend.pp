@@ -27,4 +27,7 @@ exec { 'fix-wordpress':
   command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
   path    => '/usr/local/bin/:/bin/'
 }
-
+# Define a Puppet resource to ensure Apache service is running
+service { 'apache2':
+  ensure => running,
+}
