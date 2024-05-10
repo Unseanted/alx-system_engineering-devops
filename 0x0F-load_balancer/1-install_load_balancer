@@ -42,8 +42,8 @@ backend servers
 	timeout connect	3000
 	timeout server	30000
 	balance roundrobin
-	server 519604-web-01 34.232.52.151:80 check
-	server 519604-web-02 54.174.21.162:80 check
+	server 519604-web-01 100.26.57.180:80 check
+	server 519604-web-02 35.153.52.40:80 check
 
 " >> /etc/haproxy/haproxy.cfg
 
