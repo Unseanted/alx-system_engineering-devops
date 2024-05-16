@@ -20,3 +20,4 @@ exec { 'nginx-restart':
   refreshonly => true,
 }
 
+
