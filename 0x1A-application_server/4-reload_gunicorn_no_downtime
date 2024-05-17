@@ -1,13 +1,26 @@
-#!/bin/env bash
+#!/bin/bash
 
-# Check if Gunicorn master process is running
-if pgrep -f "gunicorn" > /dev/null
-then
-    # Send SIGHUP to Gunicorn master process for graceful reload
-    echo "Gracefully reloading Gunicorn..."
-    pkill -HUP -f "gunicorn"
-    echo "Gunicorn reload signal sent."
+# Path to the Gunicorn PID file
+PID_FILE="/path/to/gunicorn.pid"
+
+# Check if the PID file exists
+if [[ ! -f $PID_FILE ]]; then
+  echo "Gunicorn PID file not found: $PID_FILE"
+  exit 1
+fi
+
+# Read the PID of the Gunicorn master process
+GUNICORN_PID=$(cat $PID_FILE)
+
+# Send the USR2 signal to the Gunicorn master process to trigger a graceful reload
+echo "Sending USR2 signal to Gunicorn master process (PID: $GUNICORN_PID)"
+kill -USR2 $GUNICORN_PID
+
+# Check if the signal was sent successfully
+if [[ $? -eq 0 ]]; then
+  echo "Gunicorn is reloading gracefully."
 else
-    echo "Gunicorn is not running."
+  echo "Failed to send USR2 signal to Gunicorn."
+  exit 1
 fi
 
