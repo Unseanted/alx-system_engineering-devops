@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 # Check if Gunicorn master process is running
 if pgrep -f "gunicorn" > /dev/null
